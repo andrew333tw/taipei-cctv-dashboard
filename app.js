@@ -119,7 +119,7 @@ function refreshAll(){
 setInterval(refreshAll, 180000);
 
 // ============================
-// 編號一覽表
+// 編號一覽表 (表格格式)
 // ============================
 function renderCCTVList(){
   const listDiv = document.getElementById('cctvList');
@@ -127,7 +127,7 @@ function renderCCTVList(){
   let html = '<table id="cctvTable"><tr>';
   cctvData.forEach((d, index) => {
     html += `<td>${d.id} ${d.name}</td>`;
-    // 每 8 欄換一列（你可以改成 10、12 等，自行調整列寬）
+    // 每 8 欄換一列（你也可以改成 6、10、12）
     if ((index+1) % 8 === 0) {
       html += '</tr><tr>';
     }
@@ -136,5 +136,3 @@ function renderCCTVList(){
 
   listDiv.innerHTML = html;
 }
-
-
