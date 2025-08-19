@@ -14,21 +14,16 @@
 </head>
 <body>
 
-<!-- 載入 + 搜尋 -->
 <button id="startBtn">載入 CCTV</button>
 <input type="text" id="search" placeholder="搜尋編號或名稱"/>
 <button onclick="searchCCTV()">搜尋</button>
 
-<!-- 容器 -->
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
 <script>
-  // 預設當前是第 1 頁
   var currentPage = 1;
-
-  // 點下按鈕才開始載入資料（init() 在 app.js 裡）
-  document.getElementById('startBtn').onclick = function () {
+  document.getElementById('startBtn').onclick = function(){
     this.style.display = 'none';
     init();
   };
