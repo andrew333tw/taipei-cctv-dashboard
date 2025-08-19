@@ -117,3 +117,23 @@ function refreshAll(){
   });
 }
 setInterval(refreshAll, 180000);
+
+// ============================
+// 編號一覽表：展開／收合
+// ============================
+function renderCCTVList(){
+  const listDiv = document.getElementById('cctvList');
+  const html = cctvData.map(d => `<span>${d.id} ${d.name}</span>`).join('');
+  listDiv.innerHTML = html;
+}
+document.getElementById('toggleListBtn').onclick = function(){
+  const div = document.getElementById('cctvList');
+  if(div.style.display === 'none'){
+    renderCCTVList();
+    div.style.display = 'block';
+  } else {
+    div.style.display = 'none';
+  }
+};
+
+
