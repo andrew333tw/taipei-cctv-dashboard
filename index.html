@@ -23,24 +23,26 @@
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
-<hr>
+<hr/>
 
 <strong>🟡 自訂監看清單</strong><br/>
-<label>輸入 CCTV 編號：</label>
-<input type="text" id="inputCode">
+<label for="inputCode">輸入 CCTV 編號：</label>
+<input type="text" id="inputCode"/>
 <button id="addToListBtn">＋加入</button>
 <br>
-<div id="selectedList" style="margin:5px 0"></div>
+<div id="selectedList" style="margin:5px 0;"></div>
 <button id="startCustomBtn" disabled>開始監看</button>
 
-<hr>
+<hr/>
 
-<button onclick="renderCCTVList()">📋 台北市CCTV編號列表</button>
+<button onclick="window.renderCCTVList()">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
-<!-- ⬇ 先執行 init() 再載入 js -->
-<script> init(); </script>
+<!-- ✅ 先載入 app.js，之後再執行 init() -->
 <script src="app.js"></script>
+<script>
+  init();
+</script>
 
 </body>
 </html>
