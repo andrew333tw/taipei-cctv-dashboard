@@ -128,6 +128,10 @@ function renderCCTVList(){
 }
 document.getElementById('toggleListBtn').onclick = function(){
   const div = document.getElementById('cctvList');
+  // 若尚未載入資料，先載入
+  if(cctvData.length === 0){
+    init();
+  }
   if(div.style.display === 'none'){
     renderCCTVList();
     div.style.display = 'block';
@@ -135,5 +139,7 @@ document.getElementById('toggleListBtn').onclick = function(){
     div.style.display = 'none';
   }
 };
+
+
 
 
