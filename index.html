@@ -10,6 +10,9 @@
     .pagination { margin: 14px 0; text-align: center; }
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
+
+    /* 編號列表用 span，讓它橫向排（inline-block） */
+    #cctvList span { display:inline-block; margin-right:16px; margin-bottom:8px; }
   </style>
 </head>
 <body>
@@ -21,15 +24,16 @@
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
-<!-- ⬇️ 按鈕在這裡綁定 init()；此時 app.js 尚未載入，因此不會執行 -->
-<script>
-  document.getElementById('startBtn').onclick = function() {
-    this.style.display = 'none';
-    init();   // ← init() 定義在 app.js 裡
-  }
-</script>
+<!-- ▼ 新增：展開 / 收合 按鈕與容器  -->
+<button id="toggleListBtn">📋 台北市CCTV編號列表</button>
+<div id="cctvList" style="display:none; margin-top:12px;"></div>
 
-<!-- ⬇️ app.js 必須放在頁面最底部 -->
+<script>
+  document.getElementById('startBtn').onclick = function(){
+    this.style.display = 'none';
+    init();
+  };
+</script>
 <script src="app.js"></script>
 </body>
 </html>
