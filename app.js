@@ -130,9 +130,10 @@ function renderCCTVList(){
 }
 
 // ============================
-// 自選清單：加入 / 開始監看
+// 自選清單：加入 / 開始監看 / 刪除
 // ============================
 const selectedCodes = [];
+
 document.getElementById('addToListBtn').onclick = () => {
   const v = document.getElementById('inputCode').value.trim();
   if(!v) return;
@@ -150,5 +151,26 @@ document.getElementById('startCustomBtn').onclick = () => {
 };
 
 function updateSelectedList(){
-  document.getElementById('selectedList').innerText = '已加入： ' + selectedCodes.join(', ');
+  const container = document.getElementById('selectedList');
+
+  if(selectedCodes.length === 0){
+    container.innerHTML = '';
+    document.getElementById('startCustomBtn').disabled = true;
+    return;
+  }
+
+  // 顯示＋刪除
+  const html = selectedCodes.map(code => {
+    return `<span>${code} <a href="#" onclick="removeCode('${code}')">❌</a></span>`;
+  }).join('　');
+  container.innerHTML = '已加入： ' + html;
+}
+
+// 移除指定的編號
+function removeCode(code){
+  const idx = selectedCodes.indexOf(code);
+  if(idx !== -1){
+    selectedCodes.splice(idx,1);
+    updateSelectedList();
+  }
 }
