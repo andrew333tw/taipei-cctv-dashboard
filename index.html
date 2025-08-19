@@ -23,12 +23,12 @@
 
 <button id="startBtn">載入 CCTV</button>
 <input type="text" id="search" placeholder="搜尋編號或名稱"/>
-<button onclick="searchCCTV()">搜尋</button>
+<!-- ✅ 注意這裡改成 window.searchCCTV() -->
+<button onclick="window.searchCCTV()">搜尋</button>
 
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
-<!-- 🔽 自選清單輸入區 -->
 <hr>
 <label>輸入 CCTV 編號：</label>
 <input type="text" id="inputCode">
@@ -38,7 +38,6 @@
 <button id="startCustomBtn" disabled>開始監看</button>
 <hr>
 
-<!-- 🔽 編號總表 -->
 <button id="toggleListBtn">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
