@@ -11,8 +11,12 @@
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
 
-    /* 編號列表用 span，讓它橫向排（inline-block） */
-    #cctvList span { display:inline-block; margin-right:16px; margin-bottom:8px; }
+    /* 編號列表 span 水平排列 */
+    #cctvList span {
+      display:inline-block;
+      margin-right:16px;
+      margin-bottom:8px;
+    }
   </style>
 </head>
 <body>
@@ -24,16 +28,42 @@
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
-<!-- ▼ 新增：展開 / 收合 按鈕與容器  -->
 <button id="toggleListBtn">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
 <script>
-  document.getElementById('startBtn').onclick = function(){
-    this.style.display = 'none';
-    init();
-  };
+// ▼ 點「載入 CCTV」→ 載入 json + render 畫面
+document.getElementById('startBtn').onclick = function(){
+  init();
+  this.style.display = 'none';
+};
+
+// ▼ 點「編號列表」→ 如果 cctvData 為空 → 只 fetch json → 再展開『純文字清單』
+document.getElementById('toggleListBtn').onclick = function(){
+  const div = document.getElementById('cctvList');
+
+  // 尚未取得資料 → 只讀取 json
+  if (cctvData.length === 0) {
+    fetch('cctv.json')
+      .then(r => r.json())
+      .then(data => {
+        cctvData = data;
+        div.innerHTML = cctvData.map(d => `<span>${d.id} ${d.name}</span>`).join('');
+        div.style.display = 'block';
+      });
+    return;
+  }
+
+  // 已經有資料 → 正常收合/展開
+  if(div.style.display === 'none'){
+    div.innerHTML = cctvData.map(d => `<span>${d.id} ${d.name}</span>`).join('');
+    div.style.display = 'block';
+  } else {
+    div.style.display = 'none';
+  }
+};
 </script>
+
 <script src="app.js"></script>
 </body>
 </html>
