@@ -11,7 +11,6 @@
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
 
-    /* 列表（表格）樣式 */
     #cctvTable td {
       padding:4px 12px;
       white-space:nowrap;
@@ -21,6 +20,8 @@
 </head>
 <body>
 
+<h1>台北市CCTV監控板</h1>
+
 <button id="startBtn">載入 CCTV</button>
 <input type="text" id="search" placeholder="搜尋編號或名稱"/>
 <button onclick="searchCCTV()">搜尋</button>
@@ -28,41 +29,20 @@
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
-<!-- 列表展開按鈕 -->
+<!-- 🔽 自訂清單輸入 -->
+<hr>
+<div>
+  <label>輸入 CCTV 編號：</label>
+  <input type="text" id="inputCode"/>
+  <button id="addToListBtn">＋加入</button>
+</div>
+<div id="selectedList" style="margin:4px 0;"></div>
+<button id="startCustomBtn" disabled>開始監看</button>
+<hr>
+
+<!-- ▼ 列表展開 -->
 <button id="toggleListBtn">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
-
-<script>
-// ▼ 點「載入 CCTV」→ 載入 json + render 畫面
-document.getElementById('startBtn').onclick = function(){
-  init();
-  this.style.display = 'none';
-};
-
-// ▼ 點「編號列表」→ 若 cctvData 為空 → 只 fetch json → 顯示表格
-document.getElementById('toggleListBtn').onclick = function(){
-  const div = document.getElementById('cctvList');
-
-  if (cctvData.length === 0) {
-    fetch('cctv.json')
-      .then(r => r.json())
-      .then(data => {
-        cctvData = data;
-        renderCCTVList();  // ← 產生表格
-        div.style.display = 'block';
-      });
-    return;
-  }
-
-  // 已經有資料 → 正常收合/展開
-  if(div.style.display === 'none'){
-    renderCCTVList();
-    div.style.display = 'block';
-  } else {
-    div.style.display = 'none';
-  }
-};
-</script>
 
 <script src="app.js"></script>
 </body>
