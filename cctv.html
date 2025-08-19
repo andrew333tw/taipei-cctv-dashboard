@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8" />
+  <title>Taipei CCTV Dashboard</title>
+  <style>
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .cctv-item { text-align: center; }
+    iframe { width: 100%; height: 240px; border: none; }
+    .pagination { margin: 14px 0; text-align: center; }
+    .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
+    .pagination .active { font-weight: bold; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- 載入 + 搜尋 -->
+<button id="startBtn">載入 CCTV</button>
+<input type="text" id="search" placeholder="搜尋編號或名稱"/>
+<button onclick="searchCCTV()">搜尋</button>
+
+<!-- 容器 -->
+<div id="grid" class="grid"></div>
+<div id="pagination" class="pagination"></div>
+
+<script>
+  // 預設當前是第 1 頁
+  var currentPage = 1;
+
+  // 點下按鈕才開始載入資料（init() 在 app.js 裡）
+  document.getElementById('startBtn').onclick = function () {
+    this.style.display = 'none';
+    init();
+  };
+</script>
+<script src="app.js"></script>
+</body>
+</html>
