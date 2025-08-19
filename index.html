@@ -11,18 +11,14 @@
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
 
-    #cctvTable td { padding:4px 12px; white-space:nowrap; border:1px solid #ddd; }
-
-    /* 標題置中；右側放搜尋 */
+    /* title + 搜尋欄位 */
     .header-row{ display:flex; justify-content: space-between; align-items:flex-end; }
     .header-title{ flex:1; text-align:center; font-size:32px; font-weight:bold; }
 
-    /* --- Drawer (底部列表) --- */
+    /* 抽屜 */
     #listDrawer {
       position:fixed;
-      left:0;
-      right:0;
-      bottom:-300px;
+      left:0; right:0; bottom:-300px;
       height:300px;
       background:#fff;
       border-top:1px solid #ccc;
@@ -31,20 +27,23 @@
       padding:12px;
       z-index:11;
     }
-    #drawerClose{
-      position:absolute;
-      right:8px;
-      top:8px;
-      cursor:pointer;
-      font-weight:bold;
-    }
-    /* 半透明背景 */
+    #drawerClose{ position:absolute; right:8px; top:8px; cursor:pointer; font-weight:bold; }
+
+    /* 背景遮罩 */
     #overlay {
-      position:fixed;
-      left:0; top:0; right:0; bottom:0;
+      position:fixed; left:0; top:0; right:0; bottom:0;
       background:rgba(0,0,0,0.4);
-      display:none;
-      z-index:10;
+      display:none; z-index:10;
+    }
+    /* 表格樣式 */
+    #listDrawer table td{
+      padding:4px 10px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    #listDrawer table td.selected{
+      background:#eee;
+      cursor:default;
     }
   </style>
 </head>
@@ -59,23 +58,20 @@
   </div>
 </div>
 
-<hr/>
+<hr>
 
-<strong>🟡 自訂監看清單</strong><br/>
-<label for="inputCode">輸入 CCTV 編號：</label>
+<strong>🟡 自訂監看清單</strong><br>
+<label for="inputCode">輸入 CCTV 編號 :</label>
 <input type="text" id="inputCode"/>
 <button id="addToListBtn">＋加入</button>
 <div id="selectedList" style="margin:5px 0;"></div>
 <button id="startCustomBtn" disabled>開始監看</button>
 
-<hr/>
+<hr>
 
 <button id="toggleListBtn">📋 台北市CCTV編號列表</button>
 
-<!-- 半透明遮罩 -->
 <div id="overlay"></div>
-
-<!-- 底部 Drawer -->
 <div id="listDrawer">
   <span id="drawerClose">❌</span>
   <div id="drawerContent"></div>
@@ -86,29 +82,59 @@
 
 <script src="app.js"></script>
 <script>
-/* 載入 JSON */
 init();
 
 /* Drawer & Overlay */
-let listOpen  = false;
-const drawer  = document.getElementById('listDrawer');
-const overlay = document.getElementById('overlay');
+let listOpen = false;
+const drawer        = document.getElementById('listDrawer');
+const overlay       = document.getElementById('overlay');
 const drawerContent = document.getElementById('drawerContent');
-const closeBtn = document.getElementById('drawerClose');
+const closeBtn      = document.getElementById('drawerClose');
 
-// 展開 or 收合
 document.getElementById('toggleListBtn').onclick = toggleDrawer;
 closeBtn.onclick  = toggleDrawer;
 overlay.onclick   = toggleDrawer;
 
 function toggleDrawer(){
-  if(!listOpen && drawerContent.innerHTML === ''){
-    // 初次展開 → 產生內容
-    drawerContent.innerHTML = cctvData.map(d => `<div>${d.id} ${d.name}</div>`).join('');
+  // 第一次展開 → 建構 8欄表格
+  if(!drawerContent.innerHTML){
+    let html = '<table><tr>';
+    cctvData.forEach((d,index)=>{
+      html+=`<td data-id="${d.id}" onclick="addFromDrawer(this,'${d.id}')">${d.id} ${d.name}</td>`;
+      if((index+1)%8===0) html+='</tr><tr>';
+    });
+    html+='</tr></table>';
+    drawerContent.innerHTML = html;
   }
+
   listOpen = !listOpen;
   drawer.style.bottom   = listOpen ? '0px' : '-300px';
   overlay.style.display = listOpen ? 'block' : 'none';
+
+  // ⬇ 展開時同步標記已選編號 (變灰)
+  if(listOpen){
+    const tds = drawerContent.querySelectorAll('td');
+    tds.forEach(td=>{
+      const id = td.getAttribute('data-id');
+      if(selectedCodes.includes(id)){
+        td.classList.add('selected');
+        td.onclick = null;
+      }
+    });
+  }
+}
+
+/* 點表格 (快速加入) */
+function addFromDrawer(td, code){
+  if(!selectedCodes.includes(code)){
+    selectedCodes.push(code);
+    updateSelectedList();
+
+    // 標記已選 (變灰+禁用)
+    td.classList.add('selected');
+    td.onclick = null;
+  }
+  document.getElementById('startCustomBtn').disabled = false;
 }
 </script>
 </body>
