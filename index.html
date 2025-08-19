@@ -10,19 +10,13 @@
     .pagination { margin: 14px 0; text-align: center; }
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
-    #cctvTable td {
-      padding:4px 12px;
-      white-space:nowrap;
-      border:1px solid #ddd;
-    }
+    #cctvTable td { padding:4px 12px; white-space:nowrap; border:1px solid #ddd; }
   </style>
 </head>
 <body>
 
 <h1>台北市CCTV監控板</h1>
 
-<!-- ✅ 加上 onclick="init()" -->
-<button id="startBtn" onclick="init()">載入 CCTV</button>
 <input type="text" id="search" placeholder="搜尋編號或名稱"/>
 <button onclick="window.searchCCTV()">搜尋</button>
 
@@ -31,8 +25,7 @@
 
 <hr>
 
-<!-- ✅ 新增標題 -->
-<strong>🟡 自訂監看清單</strong><br>
+<strong>🟡 自訂監看清單</strong><br/>
 <label>輸入 CCTV 編號：</label>
 <input type="text" id="inputCode">
 <button id="addToListBtn">＋加入</button>
@@ -42,10 +35,12 @@
 
 <hr>
 
-<!-- ✅ 綁定 renderCCTVList() -->
-<button id="toggleListBtn" onclick="renderCCTVList()">📋 台北市CCTV編號列表</button>
+<button onclick="renderCCTVList()">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
+<!-- ⬇ 先執行 init() 再載入 js -->
+<script> init(); </script>
 <script src="app.js"></script>
+
 </body>
 </html>
