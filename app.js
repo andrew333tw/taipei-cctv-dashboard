@@ -146,7 +146,6 @@ document.getElementById('addToListBtn').onclick = () => {
 };
 
 document.getElementById('startCustomBtn').onclick = () => {
-  // 跳到 custom.html?codes=001,023,097...
   window.location.href = 'custom.html?codes=' + selectedCodes.join(',');
 };
 
@@ -166,7 +165,6 @@ function updateSelectedList(){
   container.innerHTML = '已加入： ' + html;
 }
 
-// 移除指定的編號
 function removeCode(code){
   const idx = selectedCodes.indexOf(code);
   if(idx !== -1){
