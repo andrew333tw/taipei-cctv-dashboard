@@ -41,8 +41,6 @@ function renderPage(page) {
       <iframe data-src="https://hls.bote.gov.taipei/live/index.html?id=${item.id}" allowfullscreen></iframe>
     `;
     const iframe = div.querySelector('iframe');
-
-    // 滑鼠滑過時才載入影片，並限制同時最多 6 個
     iframe.onmouseenter = () => {
       if (!iframe.dataset.loaded && activeCount < MAX_ACTIVE_IFRAMES) {
         iframe.src = iframe.dataset.src;
@@ -51,7 +49,6 @@ function renderPage(page) {
         iframe.onload = () => { activeCount--; };
       }
     };
-
     grid.appendChild(div);
   });
 }
@@ -107,7 +104,7 @@ function searchCCTV() {
 }
 
 // ============================
-// 每 3 分鐘 refresh 已載入的 iframe
+// 每 3 分鐘 refresh
 // ============================
 function refreshAll(){
   document.querySelectorAll('iframe[data-loaded="true"]').forEach(f => {
@@ -119,20 +116,39 @@ function refreshAll(){
 setInterval(refreshAll, 180000);
 
 // ============================
-// 編號一覽表 (表格格式)
+// 編號一覽表（表格）
 // ============================
 function renderCCTVList(){
   const listDiv = document.getElementById('cctvList');
-
   let html = '<table id="cctvTable"><tr>';
   cctvData.forEach((d, index) => {
     html += `<td>${d.id} ${d.name}</td>`;
-    // 每 8 欄換一列（你也可以改成 6、10、12）
-    if ((index+1) % 8 === 0) {
-      html += '</tr><tr>';
-    }
+    if ((index+1) % 8 === 0) html += '</tr><tr>';
   });
   html += '</tr></table>';
-
   listDiv.innerHTML = html;
+}
+
+// ============================
+// 自選清單：加入 / 開始監看
+// ============================
+const selectedCodes = [];
+document.getElementById('addToListBtn').onclick = () => {
+  const v = document.getElementById('inputCode').value.trim();
+  if(!v) return;
+  if(!selectedCodes.includes(v)){
+    selectedCodes.push(v);
+    updateSelectedList();
+    document.getElementById('startCustomBtn').disabled = false;
+  }
+  document.getElementById('inputCode').value = '';
+};
+
+document.getElementById('startCustomBtn').onclick = () => {
+  // 跳到 custom.html?codes=001,023,097...
+  window.location.href = 'custom.html?codes=' + selectedCodes.join(',');
+};
+
+function updateSelectedList(){
+  document.getElementById('selectedList').innerText = '已加入： ' + selectedCodes.join(', ');
 }
