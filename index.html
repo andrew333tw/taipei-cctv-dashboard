@@ -11,25 +11,27 @@
     .pagination a { margin: 0 4px; text-decoration: none; color: #007bff; }
     .pagination .active { font-weight: bold; text-decoration: underline; }
     #cctvTable td { padding:4px 12px; white-space:nowrap; border:1px solid #ddd; }
+    /* 標題與搜尋並排 */
+    .header-row{ display:flex; justify-content: space-between; align-items:flex-end; }
   </style>
 </head>
 <body>
 
-<h1>台北市CCTV監控板</h1>
+<!-- 🔽 標題 + 搜尋欄位（並排） -->
+<div class="header-row">
+  <h1>台北市CCTV監控板</h1>
+  <div>
+    <input type="text" id="search" placeholder="搜尋編號或名稱"/>
+    <button onclick="window.searchCCTV()">搜尋</button>
+  </div>
+</div>
 
-<input type="text" id="search" placeholder="搜尋編號或名稱"/>
-<button onclick="window.searchCCTV()">搜尋</button>
-
-<div id="grid" class="grid"></div>
-<div id="pagination" class="pagination"></div>
-
+<!-- 🔽 自訂清單放在標題下方 -->
 <hr/>
-
 <strong>🟡 自訂監看清單</strong><br/>
 <label for="inputCode">輸入 CCTV 編號：</label>
 <input type="text" id="inputCode"/>
 <button id="addToListBtn">＋加入</button>
-<br>
 <div id="selectedList" style="margin:5px 0;"></div>
 <button id="startCustomBtn" disabled>開始監看</button>
 
@@ -38,11 +40,11 @@
 <button onclick="window.renderCCTVList()">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
+<div id="grid" class="grid"></div>
+<div id="pagination" class="pagination"></div>
+
 <!-- ✅ 先載入 app.js，之後再執行 init() -->
 <script src="app.js"></script>
-<script>
-  init();
-</script>
-
+<script>init();</script>
 </body>
 </html>
