@@ -21,24 +21,29 @@
 
 <h1>台北市CCTV監控板</h1>
 
-<button id="startBtn">載入 CCTV</button>
+<!-- ✅ 加上 onclick="init()" -->
+<button id="startBtn" onclick="init()">載入 CCTV</button>
 <input type="text" id="search" placeholder="搜尋編號或名稱"/>
-<!-- ✅ 注意這裡改成 window.searchCCTV() -->
 <button onclick="window.searchCCTV()">搜尋</button>
 
 <div id="grid" class="grid"></div>
 <div id="pagination" class="pagination"></div>
 
 <hr>
+
+<!-- ✅ 新增標題 -->
+<strong>🟡 自訂監看清單</strong><br>
 <label>輸入 CCTV 編號：</label>
 <input type="text" id="inputCode">
 <button id="addToListBtn">＋加入</button>
 <br>
 <div id="selectedList" style="margin:5px 0"></div>
 <button id="startCustomBtn" disabled>開始監看</button>
+
 <hr>
 
-<button id="toggleListBtn">📋 台北市CCTV編號列表</button>
+<!-- ✅ 綁定 renderCCTVList() -->
+<button id="toggleListBtn" onclick="renderCCTVList()">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
 
 <script src="app.js"></script>
