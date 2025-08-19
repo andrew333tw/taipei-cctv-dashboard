@@ -1,5 +1,5 @@
 // ============================
-// 初始化：載入 JSON、渲染第一頁、建立分頁
+// 初始化
 // ============================
 function init(){
   fetch('cctv.json')
@@ -42,7 +42,7 @@ function renderPage(page) {
     `;
     const iframe = div.querySelector('iframe');
 
-    // 🟡 滑鼠滑過時才載入影片（且限制同時最多 6 個）
+    // 滑鼠滑過時才載入影片，並限制同時最多 6 個
     iframe.onmouseenter = () => {
       if (!iframe.dataset.loaded && activeCount < MAX_ACTIVE_IFRAMES) {
         iframe.src = iframe.dataset.src;
@@ -57,7 +57,7 @@ function renderPage(page) {
 }
 
 // ============================
-// 分頁列
+// 分頁
 // ============================
 function renderPagination() {
   const totalPages = Math.ceil(cctvData.length / ITEMS_PER_PAGE);
@@ -82,7 +82,7 @@ function renderPagination() {
 }
 
 // ============================
-// 搜尋 → 找到項目 → 定位
+// 搜尋
 // ============================
 function searchCCTV() {
   const keyword = document.getElementById('search').value.trim();
@@ -119,27 +119,10 @@ function refreshAll(){
 setInterval(refreshAll, 180000);
 
 // ============================
-// 編號一覽表：展開／收合
+// 編號一覽表
 // ============================
 function renderCCTVList(){
   const listDiv = document.getElementById('cctvList');
   const html = cctvData.map(d => `<span>${d.id} ${d.name}</span>`).join('');
   listDiv.innerHTML = html;
 }
-document.getElementById('toggleListBtn').onclick = function(){
-  const div = document.getElementById('cctvList');
-  // 若尚未載入資料，先載入
-  if(cctvData.length === 0){
-    init();
-  }
-  if(div.style.display === 'none'){
-    renderCCTVList();
-    div.style.display = 'block';
-  } else {
-    div.style.display = 'none';
-  }
-};
-
-
-
-
