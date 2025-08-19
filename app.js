@@ -1,5 +1,5 @@
 // ============================
-// 初始化：載入 JSON、建立 observer、渲染第一頁
+// 初始化：載入 JSON、渲染第一頁、建立分頁
 // ============================
 function init(){
   fetch('cctv.json')
@@ -18,6 +18,9 @@ let currentPage = 1;
 const MAX_ACTIVE_IFRAMES = 6;
 let activeCount = 0;
 
+// ============================
+// 產生畫面 (grid)
+// ============================
 function renderPage(page) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
@@ -39,7 +42,7 @@ function renderPage(page) {
     `;
     const iframe = div.querySelector('iframe');
 
-    // 🟡 改成 "滑鼠滑過" 才載入影片，並限制同時最多 6 個
+    // 🟡 滑鼠滑過時才載入影片（且限制同時最多 6 個）
     iframe.onmouseenter = () => {
       if (!iframe.dataset.loaded && activeCount < MAX_ACTIVE_IFRAMES) {
         iframe.src = iframe.dataset.src;
@@ -53,6 +56,9 @@ function renderPage(page) {
   });
 }
 
+// ============================
+// 分頁列
+// ============================
 function renderPagination() {
   const totalPages = Math.ceil(cctvData.length / ITEMS_PER_PAGE);
   const container  = document.getElementById('pagination');
@@ -75,6 +81,9 @@ function renderPagination() {
   }
 }
 
+// ============================
+// 搜尋 → 找到項目 → 定位
+// ============================
 function searchCCTV() {
   const keyword = document.getElementById('search').value.trim();
   if (!keyword) return;
@@ -97,7 +106,9 @@ function searchCCTV() {
   }, 50);
 }
 
-// 🟢 每 3 分鐘 (180000ms) refresh 一次已載入的影片
+// ============================
+// 每 3 分鐘 refresh 已載入的 iframe
+// ============================
 function refreshAll(){
   document.querySelectorAll('iframe[data-loaded="true"]').forEach(f => {
     const src = f.src;
