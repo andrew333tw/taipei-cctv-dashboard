@@ -30,6 +30,11 @@
 
 <button id="toggleListBtn">📋 台北市CCTV編號列表</button>
 <div id="cctvList" style="display:none; margin-top:12px;"></div>
+#cctvTable td {
+  padding: 4px 12px;
+  white-space: nowrap;
+  border: 1px solid #ddd;
+}
 
 <script>
 // ▼ 點「載入 CCTV」→ 載入 json + render 畫面
@@ -67,3 +72,4 @@ document.getElementById('toggleListBtn').onclick = function(){
 <script src="app.js"></script>
 </body>
 </html>
+
